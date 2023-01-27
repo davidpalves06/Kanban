@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4c347c8e-301a-4f51-b10a-29acb1b6b723" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="JUnit5 Test Class" />
+        <option value="Class" />
+        <option value="Enum" />
+      </list>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="workspaceImportEnabled" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2JStCYhQ4WqvtRStmY9gMcFde8T" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="false" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showScratchesAndConsoles" value="false" />
+    <option name="sortByType" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/David/Desktop/Personal Projects/Kanban/src/main/java/com/example/Kanban/Authentication&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.new.ui&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\David\Desktop\Personal Projects\Kanban\src\main\java\com\example\Kanban\Authentication" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.example.Kanban.UserAccount.validators" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.example.Kanban.Authentication" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.KanbanBackend">
+    <configuration name="KanbanBackend" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.example.Kanban.KanbanApplication" />
+      <module name="Kanban" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AuthenticationServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Kanban" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.Kanban.Authentication.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.Kanban.Authentication" />
+      <option name="MAIN_CLASS_NAME" value="com.example.Kanban.Authentication.AuthenticationServiceTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AuthenticationServiceTest.loginShouldNotSucceedEmailNotExistent" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Kanban" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.Kanban.Authentication.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.Kanban.Authentication" />
+      <option name="MAIN_CLASS_NAME" value="com.example.Kanban.Authentication.AuthenticationServiceTest" />
+      <option name="METHOD_NAME" value="loginShouldNotSucceedEmailNotExistent" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AuthenticationServiceTest.loginShouldSucceed" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Kanban" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.Kanban.Authentication.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.Kanban.Authentication" />
+      <option name="MAIN_CLASS_NAME" value="com.example.Kanban.Authentication.AuthenticationServiceTest" />
+      <option name="METHOD_NAME" value="loginShouldSucceed" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AuthenticationServiceTest.registerWithoutSuccessInvalidUsername" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Kanban" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.Kanban.Authentication.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.Kanban.Authentication" />
+      <option name="MAIN_CLASS_NAME" value="com.example.Kanban.Authentication.AuthenticationServiceTest" />
+      <option name="METHOD_NAME" value="registerWithoutSuccessInvalidUsername" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserValidatorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Kanban" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.Kanban.Authentication.validators.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.Kanban.Authentication.validators" />
+      <option name="MAIN_CLASS_NAME" value="com.example.Kanban.Authentication.validators.UserValidatorTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.KanbanBackend" />
+      <item itemvalue="JUnit.AuthenticationServiceTest.registerWithoutSuccessInvalidUsername" />
+      <item itemvalue="JUnit.UserValidatorTest" />
+      <item itemvalue="JUnit.AuthenticationServiceTest.loginShouldNotSucceedEmailNotExistent" />
+      <item itemvalue="JUnit.AuthenticationServiceTest.loginShouldSucceed" />
+      <item itemvalue="JUnit.AuthenticationServiceTest" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.AuthenticationServiceTest" />
+        <item itemvalue="JUnit.UserValidatorTest" />
+        <item itemvalue="JUnit.AuthenticationServiceTest.registerWithoutSuccessInvalidUsername" />
+        <item itemvalue="JUnit.AuthenticationServiceTest.loginShouldNotSucceedEmailNotExistent" />
+        <item itemvalue="JUnit.AuthenticationServiceTest.loginShouldSucceed" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4c347c8e-301a-4f51-b10a-29acb1b6b723" name="Changes" comment="" />
+      <created>1672083186390</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1672083186390</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Kanban$AuthenticationServiceTest.ic" NAME="AuthenticationServiceTest Coverage Results" MODIFIED="1674674405841" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.example.Kanban.Authentication.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Kanban$UserAccountServiceTest.ic" NAME="UserAccountServiceTest Coverage Results" MODIFIED="1674418073123" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.example.Kanban.UserAccount.*</FILTER>
+    </SUITE>
+  </component>
+</project>
