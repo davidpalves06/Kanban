@@ -1,4 +1,4 @@
-package com.example.Kanban.Authentication.validators;
+package com.example.Kanban.Authentication.register.validators;
 
 public enum UserDetailsValidationErrors {
     INVALID_USERNAME,

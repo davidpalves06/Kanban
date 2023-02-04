@@ -30,6 +30,7 @@ public class SecurityConfiguration {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
+                .requestMatchers("/auth/password/**").authenticated()
                 .requestMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated();
 

@@ -1,6 +1,8 @@
 package com.example.Kanban.Authentication.validators;
 
-import com.example.Kanban.UserAccount.exception.InvalidUserInfoException;
+import com.example.Kanban.Authentication.register.validators.UserDetailsValidator;
+import com.example.Kanban.Authentication.register.validators.UserDetailsValidatorImpl;
+import com.example.Kanban.Authentication.exception.InvalidUserDetailsException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,7 +24,7 @@ public class UserValidatorTest {
     public void invalidUsernameTest() {
         String[] invalidUsernames = {"_David123","Test--23","small","THIS-IS-A-TEST-FOR-LENGTH","end.with_special-"};
         for (String invalidUsername : invalidUsernames) {
-            assertThrows(InvalidUserInfoException.class,() -> {
+            assertThrows(InvalidUserDetailsException.class,() -> {
                 validator.validateUsername(invalidUsername);
             });
         }
@@ -42,7 +44,7 @@ public class UserValidatorTest {
     public void invalidPasswordTest() {
         String[] invalidPasswords = {"NOLOWERCASE7","NOdigits","nouppercase8","Less8","moreThan20CharactersShouldFail"};
         for (String invalidPassword : invalidPasswords) {
-            assertThrows(InvalidUserInfoException.class,() -> {
+            assertThrows(InvalidUserDetailsException.class,() -> {
                 validator.validatePassword(invalidPassword);
             });
         }
@@ -62,7 +64,7 @@ public class UserValidatorTest {
     public void invalidEmailTest() {
         String[] invalidEmails = {"user.domain.com","user.surname#domain.com","username"};
         for (String invalidEmail : invalidEmails) {
-            assertThrows(InvalidUserInfoException.class,() -> {
+            assertThrows(InvalidUserDetailsException.class,() -> {
                 validator.validateEmail(invalidEmail);
             });
         }

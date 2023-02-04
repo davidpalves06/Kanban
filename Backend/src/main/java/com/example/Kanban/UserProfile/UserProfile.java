@@ -1,7 +1,6 @@
-package com.example.Kanban.UserAccount;
+package com.example.Kanban.UserProfile;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -9,17 +8,21 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Document("user-profile")
-public class UserAccount {
+public class UserProfile {
     @Id
     private String id;
     private String username;
     private String photo;
     private final List<KanbanBoardReference> userAccountKanbanBoards;
 
-    public UserAccount(String username) {
+    public UserProfile(String username) {
         this.setUsername(username);
         this.setPhoto("");
         this.userAccountKanbanBoards = new LinkedList<>();
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUsername() {

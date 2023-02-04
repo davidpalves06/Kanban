@@ -1,4 +1,4 @@
-package com.example.Kanban.UserAccount.exception;
+package com.example.Kanban.UserProfile.exception;
 
 public class InvalidUserInfoException extends Exception {
 

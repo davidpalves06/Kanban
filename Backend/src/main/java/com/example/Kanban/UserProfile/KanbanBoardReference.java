@@ -1,4 +1,4 @@
-package com.example.Kanban.UserAccount;
+package com.example.Kanban.UserProfile;
 
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package com.example.Kanban.Authentication.dto;
+package com.example.Kanban.Authentication.login.dto;
 
 import lombok.Data;
 
