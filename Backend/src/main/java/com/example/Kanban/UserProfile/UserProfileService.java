@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -27,4 +29,10 @@ public class UserProfileService {
 
     }
 
+    public ResponseEntity<UserProfile> getUserProfile(String id) {
+        Optional<UserProfile> optionalUserProfile = userProfileRepository.findById(id);
+        return optionalUserProfile
+                .map(userProfile -> new ResponseEntity<>(userProfile, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+    }
 }
