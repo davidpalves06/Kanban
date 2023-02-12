@@ -10,10 +10,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class KanbanBoardTest {
 
+    public static final String USER_ID = "1";
+    public static final String TEST_USERNAME = "TEST_USERNAME";
     KanbanBoard kanbanBoard;
     @BeforeEach
     public void setup() {
-        kanbanBoard = new KanbanBoard("TestBoard","1");
+        kanbanBoard = new KanbanBoard("TestBoard", USER_ID);
     }
 
     @Test
@@ -40,27 +42,34 @@ class KanbanBoardTest {
     }
 
     @Test
-    public void addUser() {
-        UserReference userRef = new UserReference("1", "TEST_USERNAME");
+    public void addUserReturnsTrue() {
+        boolean addUser = kanbanBoard.addUser(USER_ID, TEST_USERNAME);
 
-        kanbanBoard.addUser(userRef);
+        assertTrue(addUser);
+        assertEquals(1,kanbanBoard.getParticipants().size());
+        assertEquals(TEST_USERNAME,kanbanBoard.getParticipants().get(USER_ID));
+    }
 
-        assertEquals(1,kanbanBoard.getParticipantsList().size());
-        assertEquals("TEST_USERNAME",kanbanBoard.getParticipantsList().get(0).getUsername());
+    @Test
+    public void addUserReturnsFalse() {
+        kanbanBoard.addUser(USER_ID, TEST_USERNAME);
+        boolean addUser = kanbanBoard.addUser(USER_ID, TEST_USERNAME);
+
+        assertFalse(addUser);
+        assertEquals(1,kanbanBoard.getParticipants().size());
+        assertEquals(TEST_USERNAME,kanbanBoard.getParticipants().get(USER_ID));
     }
 
     @Test
     public void removeUser() {
-        UserReference userRef1 = new UserReference("1", "TEST_USERNAME");
-        UserReference userRef2 = new UserReference("2", "TEST_USERNAME_2");
 
-        kanbanBoard.addUser(userRef1);
-        kanbanBoard.addUser(userRef2);
+        kanbanBoard.addUser(USER_ID,TEST_USERNAME);
+        kanbanBoard.addUser("2","TEST_USERNAME_2");
 
-        kanbanBoard.removeUser("1");
+        kanbanBoard.removeUser(USER_ID);
 
-        assertEquals(1,kanbanBoard.getParticipantsList().size());
-        assertEquals("TEST_USERNAME_2",kanbanBoard.getParticipantsList().get(0).getUsername());
+        assertEquals(1,kanbanBoard.getParticipants().size());
+        assertEquals("TEST_USERNAME_2",kanbanBoard.getParticipants().get("2"));
     }
 
     @Test
@@ -87,10 +96,10 @@ class KanbanBoardTest {
         assertEquals(1,kanbanBoard.getBoardCards().size());
         assertEquals(0,kanbanBoard.getBoardCards().get(0).getComments().size());
 
-        kanbanBoard.addCommentToCard(kanbanCard.getId(),new CardComment("TEST_USERNAME","TEST_COMMENT"));
+        kanbanBoard.addCommentToCard(kanbanCard.getId(),new CardComment(TEST_USERNAME,"TEST_COMMENT"));
 
         assertEquals(1,kanbanBoard.getBoardCards().get(0).getComments().size());
-        assertEquals("TEST_USERNAME",kanbanBoard.getBoardCards().get(0).getComments().get(0).getUsername());
+        assertEquals(TEST_USERNAME,kanbanBoard.getBoardCards().get(0).getComments().get(0).getUsername());
         assertEquals("TEST_COMMENT",kanbanBoard.getBoardCards().get(0).getComments().get(0).getCommentText());
     }
 
@@ -103,7 +112,7 @@ class KanbanBoardTest {
         assertEquals(1,kanbanBoard.getBoardCards().size());
         assertEquals(0,kanbanBoard.getBoardCards().get(0).getComments().size());
 
-        kanbanBoard.addCommentToCard(kanbanCard.getId(),new CardComment("TEST_USERNAME","TEST_COMMENT"));
+        kanbanBoard.addCommentToCard(kanbanCard.getId(),new CardComment(TEST_USERNAME,"TEST_COMMENT"));
 
         kanbanBoard.removeCommentFromCard(kanbanCard.getId(), 0);
 

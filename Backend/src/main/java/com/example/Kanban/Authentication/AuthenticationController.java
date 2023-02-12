@@ -25,7 +25,7 @@ public class AuthenticationController {
         return authenticationService.login(loginDTO);
     }
 
-    @PostMapping("/password/{id}")
+    @PutMapping("/password/{id}")
     public ResponseEntity<AuthResponseDTO> changePassword(@RequestBody PasswordDTO passwordDTO,@PathVariable String id) {
         return authenticationService.changePassword(passwordDTO,id);
     }

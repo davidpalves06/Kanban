@@ -4,20 +4,22 @@ import com.example.Kanban.KanbanBoard.cards.CardComment;
 import com.example.Kanban.KanbanBoard.cards.KanbanCard;
 import com.example.Kanban.KanbanBoard.cards.ProgressStatus;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class KanbanBoard {
     private String id;
     private final String name;
     private final String ownerID;
-    private List<UserReference> participantsID;
+    private Map<String,String> participants;
     private List<KanbanCard> boardCards;
 
     public KanbanBoard(String name, String ownerID) {
         this.name = name;
         this.ownerID = ownerID;
-        this.participantsID = new LinkedList<>();
+        this.participants = new HashMap<>();
         this.boardCards = new LinkedList<>();
     }
 
@@ -29,20 +31,24 @@ public class KanbanBoard {
         return ownerID;
     }
 
-    public List<UserReference> getParticipantsList() {
-        return participantsID;
+    public Map<String, String> getParticipants() {
+        return participants;
     }
 
     public List<KanbanCard> getBoardCards() {
         return boardCards;
     }
 
-    public void addUser(UserReference userReference) {
-        participantsID.add(userReference);
+    public boolean addUser(String userID,String username) {
+        if (participants.containsKey(userID)) return false;
+        else {
+            participants.putIfAbsent(userID,username);
+            return true;
+        }
     }
 
     public void removeUser(String userID) {
-        participantsID.removeIf((userRef) -> userRef.getUserID().equals(userID));
+        participants.remove(userID);
     }
 
     public void addCard(KanbanCard kanbanCard) {
