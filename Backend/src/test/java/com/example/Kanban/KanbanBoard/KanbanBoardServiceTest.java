@@ -1,5 +1,8 @@
 package com.example.Kanban.KanbanBoard;
 
+import com.example.Kanban.KanbanBoard.cards.KanbanCard;
+import com.example.Kanban.KanbanBoard.cards.ProgressStatus;
+import com.example.Kanban.KanbanBoard.dto.AddCardKanbanBoardDTO;
 import com.example.Kanban.KanbanBoard.dto.AddUserKanbanBoardDTO;
 import com.example.Kanban.KanbanBoard.dto.CreateKanbanBoardDTO;
 import com.example.Kanban.KanbanBoard.dto.KanbanBoardResponse;
@@ -25,6 +28,7 @@ class KanbanBoardServiceTest {
     public static final String USER_ID = "USER_ID";
     public static final String TEST_BOARD_NAME = "TEST_BOARD_NAME";
     public static final String BOARD_ID = "BOARD_ID";
+    public static final String TEST_STORY = "TEST_STORY";
     @Mock
     private UserProfileController userProfileController;
     @Mock
@@ -138,6 +142,58 @@ class KanbanBoardServiceTest {
         when(userProfileController.getUserProfile(USER_ID)).thenReturn(new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
 
         ResponseEntity<KanbanBoardResponse> response = kanbanBoardService.removeUserFromBoard(BOARD_ID,USER_ID);
+
+        assertEquals(HttpStatus.NOT_FOUND,response.getStatusCode());
+        assertEquals(KanbanBoardService.ENTITY_NOT_FOUND,response.getBody().getMessage());
+        assertNull(response.getBody().getBoard());
+    }
+
+    @Test
+    public void addCardToBoardShouldSucceed() {
+        KanbanBoard kanbanBoard = new KanbanBoard(TEST_BOARD_NAME,USER_ID);
+        when(kanbanBoardRepository.findById(BOARD_ID)).thenReturn(Optional.of(kanbanBoard));
+        when(kanbanBoardRepository.save(any(KanbanBoard.class))).thenAnswer((t) -> t.getArguments()[0]);
+
+        ResponseEntity<KanbanBoardResponse> response = kanbanBoardService.addCardToBoard(new AddCardKanbanBoardDTO(TEST_STORY), BOARD_ID);
+
+        assertEquals(HttpStatus.OK,response.getStatusCode());
+        assertEquals(KanbanBoardService.CARD_ADDED_SUCCESSFULLY,response.getBody().getMessage());
+        assertEquals(1,response.getBody().getBoard().getBoardCards().size());
+        assertEquals(TEST_STORY,response.getBody().getBoard().getBoardCards().get(0).getUserStory());
+    }
+
+    @Test
+    public void addCardToBoardShouldFailBoardNotFound() {
+        when(kanbanBoardRepository.findById(BOARD_ID)).thenReturn(Optional.empty());
+
+        ResponseEntity<KanbanBoardResponse> response = kanbanBoardService.addCardToBoard(new AddCardKanbanBoardDTO(TEST_STORY), BOARD_ID);
+
+        assertEquals(HttpStatus.NOT_FOUND,response.getStatusCode());
+        assertEquals(KanbanBoardService.ENTITY_NOT_FOUND,response.getBody().getMessage());
+        assertNull(response.getBody().getBoard());
+    }
+
+    @Test
+    public void removeCardFromBoardShouldSucceed() {
+        KanbanBoard kanbanBoard = new KanbanBoard(TEST_BOARD_NAME,USER_ID);
+        KanbanCard kanbanCard = new KanbanCard(TEST_STORY, ProgressStatus.IN_PROGRESS);
+        kanbanBoard.addCard(kanbanCard);
+
+        when(kanbanBoardRepository.findById(BOARD_ID)).thenReturn(Optional.of(kanbanBoard));
+        when(kanbanBoardRepository.save(any(KanbanBoard.class))).thenAnswer((t) -> t.getArguments()[0]);
+
+        ResponseEntity<KanbanBoardResponse> response = kanbanBoardService.removeCardFromBoard(BOARD_ID,kanbanCard.getId());
+
+        assertEquals(HttpStatus.OK,response.getStatusCode());
+        assertEquals(KanbanBoardService.CARD_REMOVED_SUCCESSFULLY,response.getBody().getMessage());
+        assertEquals(0,response.getBody().getBoard().getBoardCards().size());
+    }
+
+    @Test
+    public void removeCardFromBoardShouldFail() {
+        when(kanbanBoardRepository.findById(BOARD_ID)).thenReturn(Optional.empty());
+
+        ResponseEntity<KanbanBoardResponse> response = kanbanBoardService.removeCardFromBoard(BOARD_ID,"1");
 
         assertEquals(HttpStatus.NOT_FOUND,response.getStatusCode());
         assertEquals(KanbanBoardService.ENTITY_NOT_FOUND,response.getBody().getMessage());
