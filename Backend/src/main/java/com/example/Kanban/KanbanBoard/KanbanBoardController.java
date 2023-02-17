@@ -1,9 +1,6 @@
 package com.example.Kanban.KanbanBoard;
 
-import com.example.Kanban.KanbanBoard.dto.AddCardKanbanBoardDTO;
-import com.example.Kanban.KanbanBoard.dto.AddUserKanbanBoardDTO;
-import com.example.Kanban.KanbanBoard.dto.CreateKanbanBoardDTO;
-import com.example.Kanban.KanbanBoard.dto.KanbanBoardResponse;
+import com.example.Kanban.KanbanBoard.dto.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,4 +37,23 @@ public class KanbanBoardController {
     public ResponseEntity<KanbanBoardResponse> addUserKanbanBoard(@PathVariable String boardID, @PathVariable String cardID) {
         return boardService.removeCardFromBoard(boardID,cardID);
     }
+
+    @PutMapping("/{boardID}/cards/{cardID}/status")
+    public ResponseEntity<KanbanBoardResponse> changeProgressFromCard(@PathVariable String boardID, @PathVariable String cardID,
+                                                                      ChangeProgressDTO changeProgressDTO) {
+       return boardService.changeCardProgress(boardID,cardID,changeProgressDTO.getProgressStatus());
+    }
+
+    @PostMapping("/{boardID}/cards/{cardID}/comments")
+    public ResponseEntity<KanbanBoardResponse> addCommentToCard(@PathVariable String boardID, @PathVariable String cardID,
+                                                                      AddCommentDTO addCommentDTO) {
+        return boardService.addCommentToCard(boardID,cardID,addCommentDTO);
+    }
+
+    @DeleteMapping("/{boardID}/cards/{cardID}/comments/{index}")
+    public ResponseEntity<KanbanBoardResponse> addCommentToCard(@PathVariable String boardID, @PathVariable String cardID,
+                                                                @PathVariable int index) {
+        return boardService.removeCommentFromCard(boardID,cardID,index);
+    }
+
 }

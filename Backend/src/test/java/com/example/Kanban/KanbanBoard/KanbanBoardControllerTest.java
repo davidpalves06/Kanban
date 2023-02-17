@@ -1,9 +1,7 @@
 package com.example.Kanban.KanbanBoard;
 
-import com.example.Kanban.KanbanBoard.dto.AddCardKanbanBoardDTO;
-import com.example.Kanban.KanbanBoard.dto.AddUserKanbanBoardDTO;
-import com.example.Kanban.KanbanBoard.dto.CreateKanbanBoardDTO;
-import com.example.Kanban.KanbanBoard.dto.KanbanBoardResponse;
+import com.example.Kanban.KanbanBoard.cards.ProgressStatus;
+import com.example.Kanban.KanbanBoard.dto.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,10 +18,9 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @WebMvcTest(controllers = KanbanBoardController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -271,6 +268,131 @@ class KanbanBoardControllerTest {
         );
 
         ResultActions response = mockMvc.perform(delete("/boards/1/cards/1")
+                .contentType(MediaType.APPLICATION_JSON));
+
+        byte[] contentAsByteArray = response.andReturn().getResponse().getContentAsByteArray();
+        KanbanBoardResponse kanbanBoardResponse = objectMapper.readValue(contentAsByteArray, KanbanBoardResponse.class);
+
+        response.andExpect(MockMvcResultMatchers.status().isNotFound());
+        assertEquals(KanbanBoardService.ENTITY_NOT_FOUND,kanbanBoardResponse.getMessage());
+    }
+
+    @Test
+    public void ChangeCardProgressFromBoardShouldSucceed() throws Exception {
+
+        ChangeProgressDTO changeProgressDTO = new ChangeProgressDTO(ProgressStatus.IN_PROGRESS);
+        KanbanBoardResponse kanbanBoardResponseMock = new KanbanBoardResponse(KanbanBoardService.PROGRESS_CHANGED_SUCCESSFULLY);
+        KanbanBoard kanbanBoard = new KanbanBoard(BOARD_NAME, USER_ID);
+        kanbanBoardResponseMock.setBoard(kanbanBoard);
+
+        when(kanbanBoardService.changeCardProgress(any(),any(),any())).thenReturn(
+                new ResponseEntity<>(kanbanBoardResponseMock, HttpStatus.OK)
+        );
+
+        ResultActions response = mockMvc.perform(put("/boards/1/cards/1/status")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(changeProgressDTO)));
+
+        byte[] contentAsByteArray = response.andReturn().getResponse().getContentAsByteArray();
+        KanbanBoardResponse kanbanBoardResponse = objectMapper.readValue(contentAsByteArray, KanbanBoardResponse.class);
+
+        response.andExpect(MockMvcResultMatchers.status().isOk());
+        assertEquals(KanbanBoardService.PROGRESS_CHANGED_SUCCESSFULLY,kanbanBoardResponse.getMessage());
+    }
+
+    @Test
+    public void ChangeCardProgressFromBoardShouldFail() throws Exception {
+        ChangeProgressDTO changeProgressDTO = new ChangeProgressDTO(ProgressStatus.IN_PROGRESS);
+        KanbanBoardResponse kanbanBoardResponseMock = new KanbanBoardResponse(KanbanBoardService.ENTITY_NOT_FOUND);
+        KanbanBoard kanbanBoard = new KanbanBoard(BOARD_NAME, USER_ID);
+        kanbanBoardResponseMock.setBoard(kanbanBoard);
+
+        when(kanbanBoardService.changeCardProgress(any(),any(),any())).thenReturn(
+                new ResponseEntity<>(kanbanBoardResponseMock, HttpStatus.NOT_FOUND)
+        );
+
+        ResultActions response = mockMvc.perform(put("/boards/1/cards/1/status")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(changeProgressDTO)));
+
+        byte[] contentAsByteArray = response.andReturn().getResponse().getContentAsByteArray();
+        KanbanBoardResponse kanbanBoardResponse = objectMapper.readValue(contentAsByteArray, KanbanBoardResponse.class);
+
+        response.andExpect(MockMvcResultMatchers.status().isNotFound());
+        assertEquals(KanbanBoardService.ENTITY_NOT_FOUND,kanbanBoardResponse.getMessage());
+    }
+
+    @Test
+    public void addCommentToCardFromBoardShouldSucceed() throws Exception {
+        AddCommentDTO addCommentDTO = new AddCommentDTO(TEST_USERNAME,"COMMENT");
+        KanbanBoardResponse kanbanBoardResponseMock = new KanbanBoardResponse(KanbanBoardService.COMMENT_ADDED_SUCCESSFULLY);
+        KanbanBoard kanbanBoard = new KanbanBoard(BOARD_NAME, USER_ID);
+        kanbanBoardResponseMock.setBoard(kanbanBoard);
+
+        when(kanbanBoardService.addCommentToCard(any(),any(),any())).thenReturn(
+                new ResponseEntity<>(kanbanBoardResponseMock, HttpStatus.OK)
+        );
+
+        ResultActions response = mockMvc.perform(post("/boards/1/cards/1/comments")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(addCommentDTO)));
+
+        byte[] contentAsByteArray = response.andReturn().getResponse().getContentAsByteArray();
+        KanbanBoardResponse kanbanBoardResponse = objectMapper.readValue(contentAsByteArray, KanbanBoardResponse.class);
+
+        response.andExpect(MockMvcResultMatchers.status().isOk());
+        assertEquals(KanbanBoardService.COMMENT_ADDED_SUCCESSFULLY,kanbanBoardResponse.getMessage());
+    }
+
+    @Test
+    public void addCommentToCardFromBoardShouldFail() throws Exception {
+        AddCommentDTO addCommentDTO = new AddCommentDTO(TEST_USERNAME,"COMMENT");
+        KanbanBoardResponse kanbanBoardResponseMock = new KanbanBoardResponse(KanbanBoardService.ENTITY_NOT_FOUND);
+
+        when(kanbanBoardService.addCommentToCard(any(),any(),any())).thenReturn(
+                new ResponseEntity<>(kanbanBoardResponseMock, HttpStatus.NOT_FOUND)
+        );
+
+        ResultActions response = mockMvc.perform(post("/boards/1/cards/1/comments")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(addCommentDTO)));
+
+        byte[] contentAsByteArray = response.andReturn().getResponse().getContentAsByteArray();
+        KanbanBoardResponse kanbanBoardResponse = objectMapper.readValue(contentAsByteArray, KanbanBoardResponse.class);
+
+        response.andExpect(MockMvcResultMatchers.status().isNotFound());
+        assertEquals(KanbanBoardService.ENTITY_NOT_FOUND,kanbanBoardResponse.getMessage());
+    }
+
+    @Test
+    public void removeCommentFromCardFromBoardShouldSucceed() throws Exception {
+        KanbanBoardResponse kanbanBoardResponseMock = new KanbanBoardResponse(KanbanBoardService.COMMENT_REMOVED_SUCCESSFULLY);
+        KanbanBoard kanbanBoard = new KanbanBoard(BOARD_NAME, USER_ID);
+        kanbanBoardResponseMock.setBoard(kanbanBoard);
+
+        when(kanbanBoardService.removeCommentFromCard(anyString(),anyString(),anyInt())).thenReturn(
+                new ResponseEntity<>(kanbanBoardResponseMock, HttpStatus.OK)
+        );
+
+        ResultActions response = mockMvc.perform(delete("/boards/1/cards/1/comments/0")
+                .contentType(MediaType.APPLICATION_JSON));
+
+        byte[] contentAsByteArray = response.andReturn().getResponse().getContentAsByteArray();
+        KanbanBoardResponse kanbanBoardResponse = objectMapper.readValue(contentAsByteArray, KanbanBoardResponse.class);
+
+        response.andExpect(MockMvcResultMatchers.status().isOk());
+        assertEquals(KanbanBoardService.COMMENT_REMOVED_SUCCESSFULLY,kanbanBoardResponse.getMessage());
+    }
+
+    @Test
+    public void removeCommentFromCardFromBoardShouldFail() throws Exception {
+        KanbanBoardResponse kanbanBoardResponseMock = new KanbanBoardResponse(KanbanBoardService.ENTITY_NOT_FOUND);
+
+        when(kanbanBoardService.removeCommentFromCard(anyString(),anyString(),anyInt())).thenReturn(
+                new ResponseEntity<>(kanbanBoardResponseMock, HttpStatus.NOT_FOUND)
+        );
+
+        ResultActions response = mockMvc.perform(delete("/boards/1/cards/1/comments/0")
                 .contentType(MediaType.APPLICATION_JSON));
 
         byte[] contentAsByteArray = response.andReturn().getResponse().getContentAsByteArray();

@@ -1,11 +1,9 @@
 package com.example.Kanban.KanbanBoard;
 
+import com.example.Kanban.KanbanBoard.cards.CardComment;
 import com.example.Kanban.KanbanBoard.cards.KanbanCard;
 import com.example.Kanban.KanbanBoard.cards.ProgressStatus;
-import com.example.Kanban.KanbanBoard.dto.AddCardKanbanBoardDTO;
-import com.example.Kanban.KanbanBoard.dto.AddUserKanbanBoardDTO;
-import com.example.Kanban.KanbanBoard.dto.CreateKanbanBoardDTO;
-import com.example.Kanban.KanbanBoard.dto.KanbanBoardResponse;
+import com.example.Kanban.KanbanBoard.dto.*;
 import com.example.Kanban.UserProfile.UserProfile;
 import com.example.Kanban.UserProfile.UserProfileController;
 import lombok.AllArgsConstructor;
@@ -26,6 +24,9 @@ public class KanbanBoardService {
     public static final String ENTITY_NOT_FOUND = "User or Board Not Found";
     public static final String CARD_ADDED_SUCCESSFULLY = "Card added successfully";
     public static final String CARD_REMOVED_SUCCESSFULLY = "Card removed successfully";
+    public static final String PROGRESS_CHANGED_SUCCESSFULLY = "Progress changed successfully!";
+    public static final String COMMENT_ADDED_SUCCESSFULLY = "Comment added successfully";
+    public static final String COMMENT_REMOVED_SUCCESSFULLY = "Comment removed successfully!";
     private final UserProfileController userProfileController;
     private final KanbanBoardRepository kanbanBoardRepository;
 
@@ -145,6 +146,53 @@ public class KanbanBoardService {
         KanbanBoard savedKanbanBoard = kanbanBoardRepository.save(kanbanBoard);
 
         KanbanBoardResponse kanbanBoardResponse = new KanbanBoardResponse(CARD_REMOVED_SUCCESSFULLY);
+        kanbanBoardResponse.setBoard(savedKanbanBoard);
+        return new ResponseEntity<>(kanbanBoardResponse, HttpStatus.OK);
+    }
+
+    public ResponseEntity<KanbanBoardResponse> changeCardProgress(String boardID, String cardID, ProgressStatus progressStatus) {
+        Optional<KanbanBoard> kanbanBoardOptional = kanbanBoardRepository.findById(boardID);
+        return kanbanBoardOptional.map(kanbanBoard -> changeCardAndReturn(cardID, progressStatus, kanbanBoard))
+                .orElseGet(() -> new ResponseEntity<>(new KanbanBoardResponse(ENTITY_NOT_FOUND), HttpStatus.NOT_FOUND));
+    }
+
+    private ResponseEntity<KanbanBoardResponse> changeCardAndReturn(String cardID, ProgressStatus progressStatus, KanbanBoard kanbanBoard) {
+        kanbanBoard.changeCardStatus(cardID, progressStatus);
+
+        KanbanBoard savedKanbanBoard = kanbanBoardRepository.save(kanbanBoard);
+        KanbanBoardResponse kanbanBoardResponse = new KanbanBoardResponse(PROGRESS_CHANGED_SUCCESSFULLY);
+        kanbanBoardResponse.setBoard(savedKanbanBoard);
+        return new ResponseEntity<>(kanbanBoardResponse, HttpStatus.OK);
+    }
+
+    public ResponseEntity<KanbanBoardResponse> addCommentToCard(String boardID, String cardID, AddCommentDTO addCommentDTO) {
+        Optional<KanbanBoard> kanbanBoardOptional = kanbanBoardRepository.findById(boardID);
+        return kanbanBoardOptional.map(kanbanBoard -> addCommentAndReturn(cardID
+                        , new CardComment(addCommentDTO.getUsername(), addCommentDTO.getComment())
+                        , kanbanBoard))
+                .orElseGet(() -> new ResponseEntity<>(new KanbanBoardResponse(ENTITY_NOT_FOUND), HttpStatus.NOT_FOUND));
+    }
+
+    private ResponseEntity<KanbanBoardResponse> addCommentAndReturn(String cardID, CardComment comment, KanbanBoard kanbanBoard) {
+        kanbanBoard.addCommentToCard(cardID, comment);
+
+        KanbanBoard savedKanbanBoard = kanbanBoardRepository.save(kanbanBoard);
+        KanbanBoardResponse kanbanBoardResponse = new KanbanBoardResponse(COMMENT_ADDED_SUCCESSFULLY);
+        kanbanBoardResponse.setBoard(savedKanbanBoard);
+        return new ResponseEntity<>(kanbanBoardResponse, HttpStatus.OK);
+    }
+
+    public ResponseEntity<KanbanBoardResponse> removeCommentFromCard(String boardID, String cardID, int index) {
+        Optional<KanbanBoard> kanbanBoardOptional = kanbanBoardRepository.findById(boardID);
+        return kanbanBoardOptional.map(kanbanBoard -> removeCommentAndReturn(cardID, index, kanbanBoard))
+                .orElseGet(() -> new ResponseEntity<>(new KanbanBoardResponse(ENTITY_NOT_FOUND), HttpStatus.NOT_FOUND));
+    }
+
+    private ResponseEntity<KanbanBoardResponse> removeCommentAndReturn(String cardID, int index, KanbanBoard kanbanBoard) {
+        kanbanBoard.removeCommentFromCard(cardID, index);
+
+        KanbanBoard savedKanbanBoard = kanbanBoardRepository.save(kanbanBoard);
+        KanbanBoardResponse kanbanBoardResponse = new KanbanBoardResponse(COMMENT_REMOVED_SUCCESSFULLY);
         kanbanBoardResponse.setBoard(savedKanbanBoard);
         return new ResponseEntity<>(kanbanBoardResponse, HttpStatus.OK);
     }
